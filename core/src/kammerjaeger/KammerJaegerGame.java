@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import kammerjaeger.entity.EntityManager;
+import kammerjaeger.graphics.Renderer;
 import kammerjaeger.map.Map;
 
 
@@ -19,6 +21,8 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     Array<Rectangle> tiles = new com.badlogic.gdx.utils.Array<Rectangle>();
     Map map = new Map();
     Rectangle test = new Rectangle();
+    private Renderer renderer;
+    private EntityManager entityManager;
 
 	@Override
 	public void create () {
@@ -32,6 +36,9 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         Gdx.input.setInputProcessor(this);
         test.setHeight(5);
         test.setWidth(5);
+
+        renderer = new Renderer();
+        entityManager = new EntityManager();
 	}
 
 	@Override
@@ -50,6 +57,12 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
                 System.out.print("ACHTUNG\n");
             }
         }
+
+        entityManager.step();
+
+        renderer.beginFrame();
+        entityManager.render(renderer);
+        renderer.endFrame();
 	}
 
     @Override
