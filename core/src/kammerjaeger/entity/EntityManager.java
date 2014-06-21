@@ -45,4 +45,9 @@ public class EntityManager {
             entity.render(renderTarget);
         }
     }
+
+    public void addEntity(Entity entity){
+
+        entities.add(entity);
+    }
 }
