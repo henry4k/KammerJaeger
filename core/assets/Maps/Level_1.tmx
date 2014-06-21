@@ -2,15 +2,23 @@
 <map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="TileMap" tilewidth="16" tileheight="16">
   <image source="../TileMap.png" width="128" height="128"/>
+  <terraintypes>
+   <terrain name="Neues Terrain erzeugen" tile="-1"/>
+  </terraintypes>
  </tileset>
  <layer name="Normal" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYETDzGgYBJgowOjmj9oxasdws4MQgJmHDRBjB6V41A7q2oFNDaV41I5RO0btGLWDVAwA1BsEHg==
+   eJzdlNsKwCAMQ4uXPvn/3+vGFEqoF7ZVUCFPZj3ElDkicqB4yRcxPQc9X3XPDoJjxfCHMeLmfaRD+sAco1O/7d1JsZKlJfRGxTPzVjJXUO5wLnpmGa2ZaTC/x9C8bzWT4++dWs1I5e0tGAx9WDBwF3fvYwUjGDPqf8hqr1blkFl26DwD1ykFsw==
   </data>
  </layer>
  <layer name="Collison" width="25" height="25">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMeIhQQykYtWPUjqFsByGMT+0oGAWjYBSMglFADgAAU/0BCQ==
+   eJxjZGBgYETD6ABdnhxMCBCjBp/eUTtG7RhIO4hN/+TmD0rBqB2Dxw56xPmoHaN2jNoxOOygdfsKAC4CAGk=
+  </data>
+ </layer>
+ <layer name="Light" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAExkhsQyzy5AATILZCwtZY7EBXQww2xeFudGBIhBpCekftGJp22ACxFh6sDcSaaGK2JNpBCBgTUIvPDksG4vKCNR61hOygFhjKdsDSAC3tIDbtjtoxaseoHbS3A71u0EaSQ68TSMHI9Qc6oHb7CgBLXhk0
   </data>
  </layer>
 </map>

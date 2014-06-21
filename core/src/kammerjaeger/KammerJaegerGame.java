@@ -5,17 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import kammerjaeger.map.Map;
+
 import com.badlogic.gdx.utils.Array;
 import kammerjaeger.entity.EntityManager;
 import kammerjaeger.graphics.Renderer;
-import kammerjaeger.map.Map;
 
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
 
+	SpriteBatch batch;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     Array<Rectangle> tiles = new com.badlogic.gdx.utils.Array<Rectangle>();
@@ -26,6 +29,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
 	@Override
 	public void create () {
+        
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -51,8 +55,10 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.render();
         test.setX(Gdx.input.getX() / 16);
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
+
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
         for (Rectangle tile : tiles) {
+
             if(test.overlaps(tile)){
                 System.out.print("ACHTUNG\n");
             }

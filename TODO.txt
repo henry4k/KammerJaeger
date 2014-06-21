@@ -1,6 +1,6 @@
-[ ] Map:
-    [ ] Map aus TMX laden
-    [ ] Map rendern
+[x] Map:
+    [x] Map aus TMX laden
+    [x] Map rendern
     [ ] Methoden für Kollisionstests
 
 [ ] Objekte (Object):
