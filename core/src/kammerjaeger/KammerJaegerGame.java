@@ -3,12 +3,16 @@ package kammerjaeger;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
 
 import com.badlogic.gdx.utils.Array;
@@ -24,14 +28,20 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     Array<Rectangle> tiles = new com.badlogic.gdx.utils.Array<Rectangle>();
     Map map = new Map();
     Rectangle test = new Rectangle();
+
+    private AssetManager assetManager = new AssetManager();
     private Renderer renderer;
     private EntityManager entityManager;
+    private PlayerEntity playerEntity;
+
 
 	@Override
 	public void create () {
         
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+
+
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
@@ -41,8 +51,14 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         test.setHeight(5);
         test.setWidth(5);
 
-        renderer = new Renderer();
+
+        assetManager.load("Player.png", Texture.class);
+        assetManager.finishLoading();
+        renderer = new Renderer(assetManager);
         entityManager = new EntityManager();
+
+        playerEntity = new PlayerEntity();
+        entityManager.addEntity(playerEntity);
 	}
 
 	@Override
@@ -55,6 +71,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.render();
         test.setX(Gdx.input.getX() / 16);
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
+        playerEntity.setPosition(new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
 
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
         for (Rectangle tile : tiles) {
