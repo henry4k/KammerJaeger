@@ -5,14 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import kammerjaeger.map.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import kammerjaeger.map.Map;
+
 import static kammerjaeger.Utils.getTime;
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
@@ -23,7 +23,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     private static final float MAX_TIME_STEP = 0.01f;
     
     
-	SpriteBatch batch;
+
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     com.badlogic.gdx.utils.Array<Rectangle> tiles = new com.badlogic.gdx.utils.Array<Rectangle>();
@@ -33,14 +33,14 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
 
 
-	Texture img;
+
 
     private World world;
     private float lastWorldStepTime;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -52,7 +52,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         test.setHeight(5);
         test.setWidth(5);
 
-		img = new Texture("TileMap.png");
+
 
         world = new World(new Vector2(0,0), false);
         world.setAutoClearForces(false);
@@ -84,19 +84,17 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.render();
         test.setX(Gdx.input.getX() / 16);
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
-        //System.out.printf("%f %f \n", test.getX(), test.getY());
+
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
         for (Rectangle tile : tiles) {
-            //System.out.printf("%f %f \n", tile.getX(), tile.getY());
+
             if(test.overlaps(tile)){
                 System.out.print("ACHTUNG\n");
             }
         }
 
 
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+
 
         stepWorld();
 	}
