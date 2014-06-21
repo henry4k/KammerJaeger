@@ -1,0 +1,12 @@
+[ ] Map:
+    [ ] Map aus TMX laden
+    [ ] Map rendern
+    [ ] Methoden für Kollisionstests
+
+[ ] Objekte (Object):
+    [ ] Objekte rendern (Vllt. so ein Rendermanager?)
+    [ ] Methoden für Kollisionstests
+
+[ ] Simulation:
+    [ ] Bewegen von Objekten
+    [ ] Kollidieren von Objekten
