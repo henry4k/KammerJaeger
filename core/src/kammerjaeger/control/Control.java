@@ -12,13 +12,8 @@ import static com.badlogic.gdx.Input.Keys;
  */
 public class Control {
 
-    float x = 0;
-    float y = 0;
-   Vector2 playerDirection;
 
-    public void gamepad(){
-
-
+    public void gamepad() {
     }
 
     public boolean keyboard(int keycode, String Keypush, PlayerEntity player){
@@ -41,8 +36,6 @@ public class Control {
         return true;
     }
 
-    public void touch(){
-
-
+    public void touch() {
     }
 }
