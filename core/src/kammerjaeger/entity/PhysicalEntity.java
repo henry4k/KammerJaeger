@@ -29,12 +29,12 @@ public abstract class PhysicalEntity implements Entity {
 
     @Override
     public void setPosition( Vector2 position ) {
-        body.setTransform(position, body.getAngle());
+        body.setTransform(position, (float)Math.toRadians(body.getAngle()));
     }
 
     @Override
     public float getRotation() {
-        return body.getAngle();
+        return (float)Math.toDegrees(body.getAngle());
     }
 
     @Override
