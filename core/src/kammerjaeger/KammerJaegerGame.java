@@ -12,7 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import kammerjaeger.control.Control;
 import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
@@ -56,12 +56,17 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         camera.setToOrtho(false,w,h);
         camera.update();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(Map.getMap("Level_1"));
+
+
+
         Gdx.input.setInputProcessor(this);
         test.setHeight(5);
         test.setWidth(5);
 
         physicsWorld = new World(new Vector2(0,0), false);
+
         physicsWorld.setAutoClearForces(false);
+
 
         assetManager.load("player/Arms.png", Texture.class);
         assetManager.load("player/Gun.png", Texture.class);
@@ -78,6 +83,21 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
         playerPosition = new Vector2(250f, 250f);
         playerEntity.setPosition(playerPosition);
+
+        tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
+        BodyDef tileBodyDef = new BodyDef();
+        tileBodyDef.type = BodyDef.BodyType.StaticBody;
+        for (Rectangle tile : tiles) {
+
+            final Body tileBody = physicsWorld.createBody(tileBodyDef);
+            tileBody.setTransform(tile.x, tile.y, 0);
+
+            final PolygonShape tileShape = new PolygonShape();
+            tileShape.setAsBox(tile.x / 2, tile.y / 2);
+            tileBody.createFixture(tileShape,1);
+
+
+        }
 	}
 
 	@Override
@@ -107,13 +127,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         playerEntity.setRotation(roatation);
 
 
-        tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
-        for (Rectangle tile : tiles) {
 
-            if(test.overlaps(tile)){
-                System.out.print("ACHTUNG\n");
-            }
-        }
 
         entityManager.step();
 
@@ -181,4 +195,5 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         entityManager.dispose();
         physicsWorld.dispose();
     }
+
 }
