@@ -29,7 +29,7 @@ public abstract class PhysicalEntity implements Entity {
 
     @Override
     public void setPosition( Vector2 position ) {
-        body.setTransform(position, (float)Math.toRadians(body.getAngle()));
+        body.setTransform(position, body.getAngle());
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class PhysicalEntity implements Entity {
 
     @Override
     public void setRotation( float rotation ) {
-        body.setTransform(body.getPosition(), rotation);
+        body.setTransform(body.getPosition(), (float)Math.toRadians(rotation));
     }
 
     public Body getBody() {
