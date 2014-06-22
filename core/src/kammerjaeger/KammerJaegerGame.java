@@ -7,15 +7,18 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import kammerjaeger.control.Control;
-import kammerjaeger.entity.PlayerEntity;
-import kammerjaeger.map.Map;
 import kammerjaeger.entity.EntityManager;
+import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.graphics.Renderer;
+import kammerjaeger.map.Map;
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
 
@@ -93,8 +96,8 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
     @Override
     public boolean keyUp(int keycode) {
-        return keyboard.keyboard(keycode, "UP", playerEntity);
-
+        keyboard.keyboard(keycode, "UP", playerEntity);
+        return true;
     }
 
     @Override
@@ -189,4 +192,6 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
             }
         }
     }
+
+
 }
