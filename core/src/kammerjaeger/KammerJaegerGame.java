@@ -91,7 +91,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
 
         playerEntity.setRotation(roatation);
-        playerEntity.setPosition(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
+
 
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
         for (Rectangle tile : tiles) {

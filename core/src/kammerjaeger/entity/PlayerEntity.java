@@ -3,7 +3,6 @@ package kammerjaeger.entity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
 import kammerjaeger.graphics.RenderTarget;
 import kammerjaeger.graphics.RenderUtils;
 
@@ -12,6 +11,7 @@ import kammerjaeger.graphics.RenderUtils;
  * Im the King of the Hill
  */
 public class PlayerEntity extends PhysicalEntity {
+
 
     private static BodyDef bodyDef = new BodyDef();
 
@@ -38,7 +38,7 @@ public class PlayerEntity extends PhysicalEntity {
         RenderUtils.drawTexture(renderTarget,torso,this);
         RenderUtils.drawTexture(renderTarget, gun,this);
         RenderUtils.drawTexture(renderTarget, arms,this);
-        RenderUtils.drawTexture(renderTarget,arms,this);
+        RenderUtils.drawTexture(renderTarget,head,this);
 
 
 
