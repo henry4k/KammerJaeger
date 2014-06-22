@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import kammerjaeger.control.Control;
 import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
 
@@ -37,7 +38,13 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     private PlayerEntity playerEntity;
     private Vector2 mousePosition;
     private Vector2 playerPosition;
+
+
+
+
+
     private float roatation;
+    Control keyboard = new Control();
 
 	@Override
 	public void create () {
@@ -65,8 +72,12 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         renderer = new Renderer(assetManager);
         entityManager = new EntityManager(physicsWorld);
 
+
         playerEntity = new PlayerEntity(entityManager);
         entityManager.addEntity(playerEntity);
+
+        playerPosition = new Vector2(250f, 250f);
+        playerEntity.setPosition(playerPosition);
 	}
 
 	@Override
@@ -81,10 +92,13 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
 
         mousePosition = new Vector2(new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
-        playerPosition = new Vector2(250f, 250f);
 
 
-        playerEntity.setPosition(playerPosition);
+
+
+
+
+
 
 
         roatation = (mousePosition.sub(playerPosition).angle()) - 90;
@@ -110,12 +124,14 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        keyboard.keyboard(keycode, "DOWN", playerEntity);
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        return keyboard.keyboard(keycode, "UP", playerEntity);
+
     }
 
     @Override
