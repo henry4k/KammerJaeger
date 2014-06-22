@@ -30,22 +30,4 @@ public class Map {
         return map;
     }
 
-    public Array<Rectangle> getMapCollison(int startX, int startY, int endX, int endY)
-    {
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get("Collison");
-        rectPool.freeAll(tiles);
-        tiles.clear();
-        for (int y = startY; y <= endY; y++) {
-            for (int x = startX; x <= endX; x++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-                if (cell != null) {
-                    Rectangle rect = rectPool.obtain();
-                    rect.set(x, y, 1, 1);
-                    tiles.add(rect);
-                }
-            }
-        }
-    return tiles;
-    }
-
 }

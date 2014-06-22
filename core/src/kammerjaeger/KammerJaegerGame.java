@@ -7,66 +7,46 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import kammerjaeger.control.Control;
 import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
-
-import com.badlogic.gdx.utils.Array;
 import kammerjaeger.entity.EntityManager;
 import kammerjaeger.graphics.Renderer;
 
+import java.awt.*;
+import java.awt.Rectangle;
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
 
-	SpriteBatch batch;
-    OrthographicCamera camera;
-    TiledMapRenderer tiledMapRenderer;
-    Array<Rectangle> tiles = new com.badlogic.gdx.utils.Array<Rectangle>();
-    Map map = new Map();
-    Rectangle test = new Rectangle();
+    private final float VIEW_SCALE = 2;
 
+    private OrthographicCamera camera;
+    private TiledMapRenderer tiledMapRenderer;
     private World physicsWorld;
     private AssetManager assetManager = new AssetManager();
     private Renderer renderer;
     private EntityManager entityManager;
     private PlayerEntity playerEntity;
-    private Vector2 mousePosition;
-    private Vector2 playerPosition;
-
-
-
-
-
-    private float roatation;
-    Control keyboard = new Control();
+    private Control keyboard = new Control();
 
 	@Override
 	public void create () {
-        
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,w,h);
-        camera.update();
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(Map.getMap("Level_1"));
 
 
-
+        final TiledMap tiledMap = Map.getMap("Level_1");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
-        test.setHeight(5);
-        test.setWidth(5);
 
         physicsWorld = new World(new Vector2(0,0), false);
-
         physicsWorld.setAutoClearForces(false);
-
 
         assetManager.load("player/Arms.png", Texture.class);
         assetManager.load("player/Gun.png", Texture.class);
@@ -77,61 +57,35 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         renderer = new Renderer(assetManager);
         entityManager = new EntityManager(physicsWorld);
 
-
         playerEntity = new PlayerEntity(entityManager);
+        playerEntity.setPosition(new Vector2(250, 250));
         entityManager.addEntity(playerEntity);
 
-        playerPosition = new Vector2(250f, 250f);
-        playerEntity.setPosition(playerPosition);
-
-        tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
-        BodyDef tileBodyDef = new BodyDef();
-        tileBodyDef.type = BodyDef.BodyType.StaticBody;
-        for (Rectangle tile : tiles) {
-
-            final Body tileBody = physicsWorld.createBody(tileBodyDef);
-            tileBody.setTransform(tile.x, tile.y, 0);
-
-            final PolygonShape tileShape = new PolygonShape();
-            tileShape.setAsBox(tile.x / 2, tile.y / 2);
-            tileBody.createFixture(tileShape,1);
-
-
-        }
+        createBodiesFromMap(tiledMap);
 	}
 
 	@Override
 	public void render() {
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+        final Vector2 mousePosition = getViewSpaceMousePosition();
+        final Vector2 playerPosition = playerEntity.getPosition();
+
+        final float rotation = (mousePosition.sub(playerPosition).angle()) - 90;
+
+        playerEntity.setPosition(playerPosition);
+        playerEntity.setRotation(rotation);
+
+        updateCamera();
+
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
+
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        test.setX(Gdx.input.getX() / 16);
-        test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
-        final Vector2 playerPosition = playerEntity.getPosition();
-        mousePosition = new Vector2(new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
-
-
-
-
-
-
-
-
-
-        roatation = (mousePosition.sub(playerPosition).angle()) - 90;
-
-
-        playerEntity.setRotation(roatation);
-
-
-
 
         entityManager.step();
 
-        renderer.beginFrame();
+        renderer.beginFrame(camera);
         entityManager.render(renderer);
         renderer.endFrame();
 	}
@@ -196,4 +150,48 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         physicsWorld.dispose();
     }
 
+    private void updateCamera() {
+
+        final float width = Gdx.graphics.getWidth();
+        final float height = Gdx.graphics.getHeight();
+
+        final Vector2 playerPosition = playerEntity.getPosition();
+
+        final float viewWidth = width / VIEW_SCALE;
+        final float viewHeight = height / VIEW_SCALE;
+
+        camera.setToOrtho(false, viewWidth, viewHeight);
+        camera.translate(playerPosition.cpy().add(-viewWidth/2, -viewHeight/2));
+        camera.update();
+    }
+
+    private Vector2 getViewSpaceMousePosition() {
+
+        final Vector3 sceenSpaceMousePosition = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        final Vector3 viewSpaceMousePosition = camera.unproject(sceenSpaceMousePosition);
+        return new Vector2(viewSpaceMousePosition.x, viewSpaceMousePosition.y);
+    }
+
+    private void createBodiesFromMap( TiledMap map ) {
+
+        final BodyDef tileBodyDef = new BodyDef();
+        tileBodyDef.type = BodyDef.BodyType.StaticBody;
+
+        final TiledMapTileLayer collisionLayer = (TiledMapTileLayer)map.getLayers().get("Collison");
+
+        for(int y = 0; y <= collisionLayer.getWidth(); y++)
+        for(int x = 0; x <= collisionLayer.getHeight(); x++) {
+
+            if(collisionLayer.getCell(x,y) != null) {
+
+                final Body tileBody = physicsWorld.createBody(tileBodyDef);
+
+                tileBody.setTransform(x, y, 0);
+
+                final PolygonShape tileShape = new PolygonShape();
+                tileShape.setAsBox(0.5f, 0.5f);
+                tileBody.createFixture(tileShape, 1);
+            }
+        }
+    }
 }

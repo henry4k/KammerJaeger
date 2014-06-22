@@ -1,6 +1,7 @@
 package kammerjaeger.graphics;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Renderer implements RenderTarget {
@@ -13,8 +14,9 @@ public class Renderer implements RenderTarget {
         this.spriteBatch = new SpriteBatch();
     }
 
-    public void beginFrame() {
+    public void beginFrame( Camera camera ) {
 
+        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
     }
 
