@@ -35,7 +35,9 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     private Renderer renderer;
     private EntityManager entityManager;
     private PlayerEntity playerEntity;
-
+    private Vector2 mousePosition;
+    private Vector2 playerPosition;
+    private float roatation;
 
 	@Override
 	public void create () {
@@ -54,7 +56,11 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         physicsWorld = new World(new Vector2(0,0), false);
         physicsWorld.setAutoClearForces(false);
 
-        assetManager.load("Player.png", Texture.class);
+        assetManager.load("player/Arms.png", Texture.class);
+        assetManager.load("player/Gun.png", Texture.class);
+        assetManager.load("player/Head.png", Texture.class);
+        assetManager.load("player/Torso.png", Texture.class);
+
         assetManager.finishLoading();
         renderer = new Renderer(assetManager);
         entityManager = new EntityManager(physicsWorld);
@@ -73,6 +79,18 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.render();
         test.setX(Gdx.input.getX() / 16);
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
+
+        mousePosition = new Vector2(new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
+        playerPosition = new Vector2(250f, 250f);
+
+
+        playerEntity.setPosition(playerPosition);
+
+
+        roatation = (mousePosition.sub(playerPosition).angle()) - 90;
+
+
+        playerEntity.setRotation(roatation);
         playerEntity.setPosition(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
 
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
