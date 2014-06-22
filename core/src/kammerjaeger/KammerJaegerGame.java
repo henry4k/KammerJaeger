@@ -184,7 +184,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
                 final Body tileBody = physicsWorld.createBody(tileBodyDef);
 
-                tileBody.setTransform(x*TILE_SIZE, y*TILE_SIZE, 0);
+                tileBody.setTransform(x*TILE_SIZE + TILE_SIZE/2, y*TILE_SIZE + TILE_SIZE/2, 0);
 
                 final PolygonShape tileShape = new PolygonShape();
                 tileShape.setAsBox(TILE_SIZE/2, TILE_SIZE/2);
