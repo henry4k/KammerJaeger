@@ -11,16 +11,11 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import kammerjaeger.control.Control;
 import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
 import kammerjaeger.entity.EntityManager;
 import kammerjaeger.graphics.Renderer;
-
-import java.awt.*;
-import java.awt.Rectangle;
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
 
