@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import kammerjaeger.entity.PlayerEntity;
 import kammerjaeger.map.Map;
 
@@ -29,6 +30,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
     Map map = new Map();
     Rectangle test = new Rectangle();
 
+    private World physicsWorld;
     private AssetManager assetManager = new AssetManager();
     private Renderer renderer;
     private EntityManager entityManager;
@@ -41,8 +43,6 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
@@ -51,13 +51,15 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         test.setHeight(5);
         test.setWidth(5);
 
+        physicsWorld = new World(new Vector2(0,0), false);
+        physicsWorld.setAutoClearForces(false);
 
         assetManager.load("Player.png", Texture.class);
         assetManager.finishLoading();
         renderer = new Renderer(assetManager);
-        entityManager = new EntityManager();
+        entityManager = new EntityManager(physicsWorld);
 
-        playerEntity = new PlayerEntity();
+        playerEntity = new PlayerEntity(entityManager);
         entityManager.addEntity(playerEntity);
 	}
 
@@ -71,7 +73,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.render();
         test.setX(Gdx.input.getX() / 16);
         test.setY((Gdx.graphics.getHeight() - Gdx.input.getY()) / 16);
-        playerEntity.setPosition(new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
+        playerEntity.setPosition(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
 
         tiles = map.getMapCollison((int)test.getX(),(int)test.getY(),(int)test.getX(),(int)test.getY());
         for (Rectangle tile : tiles) {
@@ -142,5 +144,7 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
     @Override
     public void dispose() {
+        entityManager.dispose();
+        physicsWorld.dispose();
     }
 }
