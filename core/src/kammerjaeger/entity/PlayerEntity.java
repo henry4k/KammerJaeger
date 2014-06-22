@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import kammerjaeger.graphics.RenderTarget;
 import kammerjaeger.graphics.RenderUtils;
 
@@ -25,6 +26,10 @@ public class PlayerEntity extends PhysicalEntity {
 
     public PlayerEntity( EntityManager entityManager ) {
         super(entityManager, bodyDef);
+
+        final CircleShape shape = new CircleShape();
+        shape.setRadius(1);
+        getBody().createFixture(shape, 1);
 
         torsoColor = Color.GREEN;
         armColor   = Color.BLUE;
