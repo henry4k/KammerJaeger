@@ -8,12 +8,14 @@ public abstract class Entity {
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 size;
+    private float rotation;
 
     protected Entity() {
 
         position = new Vector2(0,0);
         velocity = new Vector2(0,0);
         size = new Vector2(0,0);
+        rotation = 0f;
     }
 
     public abstract void render( RenderTarget renderTarget );
@@ -40,5 +42,13 @@ public abstract class Entity {
 
     public void setSize( Vector2 size ) {
         this.size = size;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
 }
