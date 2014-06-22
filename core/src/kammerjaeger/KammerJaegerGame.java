@@ -19,7 +19,8 @@ import kammerjaeger.graphics.Renderer;
 
 public class KammerJaegerGame extends ApplicationAdapter implements InputProcessor {
 
-    private final float VIEW_SCALE = 2;
+    private final float VIEW_SCALE = 3;
+    private final int TILE_SIZE = 16;
 
     private OrthographicCamera camera;
     private TiledMapRenderer tiledMapRenderer;
@@ -34,7 +35,6 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 	public void create () {
 
         camera = new OrthographicCamera();
-
 
         final TiledMap tiledMap = Map.getMap("Level_1");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -181,10 +181,10 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
 
                 final Body tileBody = physicsWorld.createBody(tileBodyDef);
 
-                tileBody.setTransform(x, y, 0);
+                tileBody.setTransform(x*TILE_SIZE, y*TILE_SIZE, 0);
 
                 final PolygonShape tileShape = new PolygonShape();
-                tileShape.setAsBox(0.5f, 0.5f);
+                tileShape.setAsBox(TILE_SIZE/2, TILE_SIZE/2);
                 tileBody.createFixture(tileShape, 1);
             }
         }
