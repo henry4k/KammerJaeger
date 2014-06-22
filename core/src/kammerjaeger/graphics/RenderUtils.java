@@ -12,8 +12,8 @@ public class RenderUtils {
     public static void drawTexture(RenderTarget renderTarget, Texture texture, float x, float y, float rotation, float originX, float originY) {
 
         renderTarget.getSpriteBatch().draw(texture,
-                x,
-                y,
+                x - originX,
+                y - originY,
                 originX,
                 originY,
                 texture.getWidth(),
