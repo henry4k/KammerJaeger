@@ -1,8 +1,6 @@
 package kammerjaeger.control;
 
 import com.badlogic.gdx.math.Vector2;
-import kammerjaeger.KammerJaegerGame;
-import kammerjaeger.entity.Entity;
 import kammerjaeger.entity.PlayerEntity;
 
 import static com.badlogic.gdx.Input.Keys;
@@ -13,7 +11,9 @@ import static com.badlogic.gdx.Input.Keys;
  */
 public class Control {
 
-
+    float x = 0;
+    float y = 0;
+   Vector2 playerDirection;
 
     public void gamepad(){
 
@@ -22,48 +22,45 @@ public class Control {
 
     public boolean keyboard(int keycode, String Keypush, PlayerEntity player){
 
-
+        playerDirection = new Vector2(x,y);
+        player.getBody().setLinearVelocity(playerDirection.scl(500f));
             if(Keypush == "DOWN") {
-                switch (keycode) {
-                    case Keys.W:
-                            //player.getBody().applyForce(new Vector2(0,500), new Vector2(0,0), true);
-                        player.getBody().setLinearVelocity(0.0f, 500.0f);
-                        break;
-                    case Keys.A:
-                        player.getBody().setLinearVelocity(-500.0f,0.0f);
-                        break;
-                    case Keys.S:
-                        player.getBody().setLinearVelocity(0.0f, -500.0f);
-                        break;
-                    case Keys.D:
-                        player.getBody().setLinearVelocity(500.0f, 0.0f);
-                        break;
+
+                if(keycode == Keys.W) {
+                    y += 1f;
                 }
+                if(keycode == Keys.A) {
+                    x += -1f;
+                }
+                if(keycode == Keys.S) {
+                    y += -1f;
+                }
+                if(keycode == Keys.D) {
+                    x += 1f;
+                }
+
                 return true;
             }
 
-            if(Keypush == "UP")
+
+    if(Keypush == "UP")
             {
-                switch (keycode)
-                {
-                    case Keys.W:
-                        player.getBody().setLinearVelocity(0.0f, 0.0f);
-
-                        break;
-                    case Keys.A:
-                        player.getBody().setLinearVelocity(0.0f, 0.0f);
-                        break;
-                    case Keys.S:
-                        player.getBody().setLinearVelocity(0.0f, 0.0f);
-                        break;
-                    case Keys.D:
-                        player.getBody().setLinearVelocity(0.0f, 0.0f);
-                        break;
+                if(keycode == Keys.W) {
+                    y -= 1f;
+                }
+                if(keycode == Keys.A) {
+                    x -= -1f;
+                }
+                if(keycode == Keys.S) {
+                    y -= -1f;
+                }
+                if(keycode == Keys.D) {
+                    x -= 1f;
                 }
                 return true;
             }
 
-        return false;
+        return true;
     }
 
     public void touch(){
