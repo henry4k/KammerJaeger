@@ -20,6 +20,7 @@ public abstract class PhysicalEntity implements Entity {
 
         this.body = entityManager.getPhysicsWorld().createBody(bodyDef);
         this.body.setUserData(this);
+        this.body.setFixedRotation(true);
     }
 
     @Override

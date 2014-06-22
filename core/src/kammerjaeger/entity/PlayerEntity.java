@@ -30,7 +30,7 @@ public class PlayerEntity extends PhysicalEntity {
         super(entityManager, bodyDef);
 
         final CircleShape shape = new CircleShape();
-        shape.setRadius(1);
+        shape.setRadius(8);
         getBody().createFixture(shape, 1);
 
         torsoColor = new Color(0x3f372eFF);
