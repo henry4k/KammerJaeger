@@ -1,5 +1,6 @@
 package kammerjaeger.control;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import kammerjaeger.entity.PlayerEntity;
 
@@ -22,43 +23,20 @@ public class Control {
 
     public boolean keyboard(int keycode, String Keypush, PlayerEntity player){
 
-        playerDirection = new Vector2(x,y);
-        player.getBody().setLinearVelocity(playerDirection.scl(500f));
-            if(Keypush == "DOWN") {
+        final Vector2 direction = new Vector2(0,0);
 
-                if(keycode == Keys.W) {
-                    y += 1f;
-                }
-                if(keycode == Keys.A) {
-                    x += -1f;
-                }
-                if(keycode == Keys.S) {
-                    y += -1f;
-                }
-                if(keycode == Keys.D) {
-                    x += 1f;
-                }
+        if(Gdx.input.isKeyPressed(Keys.W))
+            direction.y += 1;
+        if(Gdx.input.isKeyPressed(Keys.S))
+            direction.y -= 1;
+        if(Gdx.input.isKeyPressed(Keys.D))
+            direction.x += 1;
+        if(Gdx.input.isKeyPressed(Keys.A))
+            direction.x -= 1;
 
-                return true;
-            }
+        direction.nor(); // Normalize
 
-
-    if(Keypush == "UP")
-            {
-                if(keycode == Keys.W) {
-                    y -= 1f;
-                }
-                if(keycode == Keys.A) {
-                    x -= -1f;
-                }
-                if(keycode == Keys.S) {
-                    y -= -1f;
-                }
-                if(keycode == Keys.D) {
-                    x -= 1f;
-                }
-                return true;
-            }
+        player.getBody().setLinearVelocity(direction.cpy().scl(PlayerEntity.MAX_WALK_SPEED));
 
         return true;
     }
