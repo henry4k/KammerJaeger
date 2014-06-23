@@ -2,7 +2,9 @@ package kammerjaeger.control;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.IntFloatMap;
 import kammerjaeger.entity.PlayerEntity;
+import kammerjaeger.graphics.RenderUtils;
 
 import static com.badlogic.gdx.Input.Keys;
 
@@ -19,6 +21,12 @@ public class Control {
     public boolean keyboard(PlayerEntity player){
 
         final Vector2 direction = new Vector2(0,0);
+
+        if(Gdx.input.isKeyPressed(Keys.E))
+        {
+
+
+        }
 
         if(Gdx.input.isKeyPressed(Keys.W))
             direction.y += 1;

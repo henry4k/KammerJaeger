@@ -46,10 +46,12 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         physicsWorld = new World(new Vector2(0,0), false);
         physicsWorld.setAutoClearForces(false);
 
+
         assetManager.load("player/Arms.png", Texture.class);
         assetManager.load("player/Gun.png", Texture.class);
         assetManager.load("player/Head.png", Texture.class);
         assetManager.load("player/Torso.png", Texture.class);
+
 
         assetManager.finishLoading();
         renderer = new Renderer(assetManager);

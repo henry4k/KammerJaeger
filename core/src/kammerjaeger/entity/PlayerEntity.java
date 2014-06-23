@@ -48,6 +48,7 @@ public class PlayerEntity extends PhysicalEntity {
         final Texture gun = assetManager.get("player/Gun.png", Texture.class);
         final Texture head = assetManager.get("player/Head.png", Texture.class);
 
+
         renderTarget.getSpriteBatch().setColor(armColor);
         RenderUtils.drawTexture(renderTarget, arms, this);
 
