@@ -81,22 +81,21 @@ public class KammerJaegerGame extends ApplicationAdapter implements InputProcess
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
-        entityManager.step();
-
         renderer.beginFrame(camera);
         entityManager.render(renderer);
         renderer.endFrame();
+
+        keyboard.keyboard(playerEntity);
+        entityManager.step();
 	}
 
     @Override
     public boolean keyDown(int keycode) {
-        keyboard.keyboard(keycode, "DOWN", playerEntity);
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        keyboard.keyboard(keycode, "UP", playerEntity);
         return true;
     }
 

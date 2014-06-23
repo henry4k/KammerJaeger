@@ -16,7 +16,7 @@ public class Control {
     public void gamepad() {
     }
 
-    public boolean keyboard(int keycode, String Keypush, PlayerEntity player){
+    public boolean keyboard(PlayerEntity player){
 
         final Vector2 direction = new Vector2(0,0);
 
